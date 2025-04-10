@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
-
+<AnchorPane fx:id="ServerAp" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chatapplication.controller.Server">
+   <children>
+      <TextArea fx:id="ServerTextArea" layoutX="38.0" layoutY="23.0" prefHeight="200.0" prefWidth="526.0" />
+      <TextField fx:id="ServerTextField" layoutX="38.0" layoutY="279.0" prefHeight="56.0" prefWidth="348.0" promptText="Enter your msg here" />
+      <Button fx:id="btnServerSend" layoutX="399.0" layoutY="279.0" mnemonicParsing="false" onAction="#btnServerSendOnAction" prefHeight="56.0" prefWidth="164.0" text="Send" />
+      <Label fx:id="lblError" layoutX="38.0" layoutY="343.0" prefHeight="18.0" prefWidth="348.0" />
+   </children>
 </AnchorPane>
