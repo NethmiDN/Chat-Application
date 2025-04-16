@@ -2,77 +2,80 @@ package com.example.chatapplication.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
-import com.example.chatapplication.controller.Server;
+import java.nio.file.Files;
 
 public class Client {
 
     @FXML
-    private AnchorPane ClientAp;
+    private TextArea txtArea;
 
     @FXML
-    private TextArea ClientTextArea;
+    private TextField txtMessage;
 
     @FXML
-    private Label lblError;
+    private ImageView imageView;
 
-    @FXML
-    private TextField ClientTextField;
-
-    @FXML
-    private Button btnClientSend;
+    Socket socket;
+    DataInputStream dataInputStream;
+    DataOutputStream dataOutputStream;
+    String message = "";
 
     public void initialize() {
-        ClientTextField.requestFocus();
-    }
-    @FXML
-    void btnClientSendOnAction(ActionEvent event) {
-        if (areFieldsEmpty()) {
-            showErrorMessage("*Required fields cannot be empty.");
-        }else {
+        new Thread(() -> {
             try {
-                Socket socket = new Socket("127.0.0.1", 3000);
-                System.out.println("Connected to server");
-
-                DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-                DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-                Scanner scanner = new Scanner(System.in);
-
-                String msg = "", reply = "";
-
+                socket = new Socket("localhost", 4000);
+                dataInputStream = new DataInputStream(socket.getInputStream());
+                dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 while (true) {
-                    System.out.print("You: ");
-                    msg = scanner.nextLine(); // client message
-                    dataOutputStream.writeUTF(msg); // send to server
-                    dataOutputStream.flush();
-
-                    reply = dataInputStream.readUTF(); // receive from server
-
-                    System.out.println("Server: " + reply);
+                    message = dataInputStream.readUTF();
+                    if (message.equals("IMAGE")) {
+                        int length = dataInputStream.readInt();
+                        byte[] imageBytes = new byte[length];
+                        dataInputStream.readFully(imageBytes);
+                        ByteArrayInputStream bais = new ByteArrayInputStream(imageBytes);
+                        Image image = new Image(bais);
+                        imageView.setImage(image);
+                        txtArea.appendText("Image received from server\n");
+                    } else {
+                        txtArea.appendText("Server: " + message + "\n");
+                    }
                 }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+    }
 
-            } catch (Exception e) {
-                System.out.println(e);
+    @FXML
+    void sendOnAction(ActionEvent event) throws IOException {
+        dataOutputStream.writeUTF(txtMessage.getText());
+        dataOutputStream.flush();
+    }
+
+    @FXML
+    void sendImageOnAction(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(new Stage());
+        if (file != null) {
+            try {
+                byte[] imageBytes = Files.readAllBytes(file.toPath());
+                dataOutputStream.writeUTF("IMAGE");
+                dataOutputStream.writeInt(imageBytes.length);
+                dataOutputStream.write(imageBytes);
+                dataOutputStream.flush();
+                txtArea.appendText("Image sent to server: " + file.getName() + "\n");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
-
-    private boolean areFieldsEmpty() {
-        return ClientTextField.getText().isEmpty();
-    }
-
-    private void showErrorMessage(String message) {
-        lblError.setText(message);
-        lblError.setStyle("-fx-text-fill: red; -fx-font-size: 14px; -fx-alignment: center");
-    }
-
 }

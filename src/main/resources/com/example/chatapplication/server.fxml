@@ -4,13 +4,25 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ServerAp" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chatapplication.controller.Server">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.chatapplication.controller.Server">
    <children>
-      <TextArea fx:id="ServerTextArea" layoutX="38.0" layoutY="23.0" prefHeight="200.0" prefWidth="526.0" />
-      <TextField fx:id="ServerTextField" layoutX="38.0" layoutY="279.0" prefHeight="56.0" prefWidth="348.0" promptText="Enter your msg here" />
-      <Button fx:id="btnServerSend" layoutX="399.0" layoutY="279.0" mnemonicParsing="false" onAction="#btnServerSendOnAction" prefHeight="56.0" prefWidth="164.0" text="Send" />
-      <Label fx:id="lblError" layoutX="38.0" layoutY="343.0" prefHeight="18.0" prefWidth="348.0" />
+      <AnchorPane layoutX="-1.0" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="286.0" layoutY="21.0" text="Server">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="txtArea" layoutX="23.0" layoutY="53.0" prefHeight="290.0" prefWidth="398.0" />
+            <TextField fx:id="txtMessage" layoutX="23.0" layoutY="355.0" prefHeight="25.0" prefWidth="397.0" />
+            <Button layoutX="502.0" layoutY="355.0" mnemonicParsing="false" onAction="#sendOnAction" prefHeight="25.0" prefWidth="84.0" text="SEND" />
+            <Button layoutX="433.0" layoutY="355.0" mnemonicParsing="false" onAction="#sendImageOnAction" prefHeight="25.0" prefWidth="53.0" text="File" />
+            <ImageView fx:id="imageView" fitHeight="290.0" fitWidth="153.0" layoutX="433.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
