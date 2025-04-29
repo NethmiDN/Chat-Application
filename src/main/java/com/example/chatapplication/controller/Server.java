@@ -1,14 +1,16 @@
 package com.example.chatapplication.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,13 +25,18 @@ public class Server {
     private TextField txtMessage;
 
     @FXML
-    private ImageView imageView;
+    private Button btnDownload;
 
-    ServerSocket serverSocket;
-    Socket socket;
-    DataOutputStream dataOutputStream;
-    DataInputStream dataInputStream;
-    String message = "";
+    @FXML
+    private ProgressBar progressBar;
+
+    private ServerSocket serverSocket;
+    private Socket socket;
+    private DataInputStream dataInputStream;
+    private DataOutputStream dataOutputStream;
+
+    private File receivedFile;
+    private byte[] receivedFileBytes;
 
     public void initialize() {
         new Thread(() -> {
@@ -40,16 +47,18 @@ public class Server {
                 txtArea.appendText("Client connected\n");
                 dataInputStream = new DataInputStream(socket.getInputStream());
                 dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
                 while (true) {
-                    message = dataInputStream.readUTF();
-                    if (message.equals("IMAGE")) {
+                    String message = dataInputStream.readUTF();
+                    if (message.equals("DOCUMENT")) {
+                        String fileName = dataInputStream.readUTF();
                         int length = dataInputStream.readInt();
-                        byte[] imageBytes = new byte[length];
-                        dataInputStream.readFully(imageBytes);
-                        ByteArrayInputStream bais = new ByteArrayInputStream(imageBytes);
-                        Image image = new Image(bais);
-                        imageView.setImage(image);
-                        txtArea.appendText("Image received from client\n");
+                        receivedFileBytes = new byte[length];
+                        dataInputStream.readFully(receivedFileBytes);
+
+                        receivedFile = new File(fileName);
+                        txtArea.appendText("Document received: " + fileName + "\n");
+                        Platform.runLater(() -> btnDownload.setDisable(false));
                     } else {
                         txtArea.appendText("Client: " + message + "\n");
                     }
@@ -67,20 +76,48 @@ public class Server {
     }
 
     @FXML
-    void sendImageOnAction(ActionEvent event) {
+    void sendDocumentOnAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
             try {
-                byte[] imageBytes = Files.readAllBytes(file.toPath());
-                dataOutputStream.writeUTF("IMAGE");
-                dataOutputStream.writeInt(imageBytes.length);
-                dataOutputStream.write(imageBytes);
+                byte[] fileBytes = Files.readAllBytes(file.toPath());
+                dataOutputStream.writeUTF("DOCUMENT");
+                dataOutputStream.writeUTF(file.getName());
+                dataOutputStream.writeInt(fileBytes.length);
+                dataOutputStream.write(fileBytes);
                 dataOutputStream.flush();
-                txtArea.appendText("Image sent to client: " + file.getName() + "\n");
+                txtArea.appendText("Document sent: " + file.getName() + "\n");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    @FXML
+    void downloadOnAction(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName(receivedFile.getName());
+        File saveFile = fileChooser.showSaveDialog(new Stage());
+        if (saveFile != null) {
+            new Thread(() -> {
+                try (FileOutputStream fos = new FileOutputStream(saveFile)) {
+                    Platform.runLater(() -> progressBar.setProgress(0));
+                    for (int i = 0; i < receivedFileBytes.length; i++) {
+                        fos.write(receivedFileBytes[i]);
+                        final double progress = (double) (i + 1) / receivedFileBytes.length;
+                        Platform.runLater(() -> progressBar.setProgress(progress));
+                    }
+                    fos.flush();
+                    Platform.runLater(() -> {
+                        progressBar.setProgress(1);
+                        txtArea.appendText("File downloaded: " + saveFile.getName() + "\n");
+                        btnDownload.setDisable(true);
+                    });
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
         }
     }
 }

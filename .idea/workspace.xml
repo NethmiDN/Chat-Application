@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d61e2e8-1bb1-471c-bc2d-255b82d9b799" name="Changes" comment="chat application">
+    <list default="true" id="3d61e2e8-1bb1-471c-bc2d-255b82d9b799" name="Changes" comment="image sending option added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/chatapplication/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/chatapplication/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/chatapplication/controller/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/chatapplication/controller/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/chatapplication/controller/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/chatapplication/controller/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/chatapplication/client.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/chatapplication/client.fxml" afterDir="false" />
@@ -58,23 +57,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Client.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.Server.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/IdeaProjects/chatApplication72-master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Client.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Server.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/IdeaProjects/Chat-Application/src/main/resources/com/example/chatapplication&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\IdeaProjects\Chat-Application\src\main\resources\com\example\chatapplication" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.chatapplication.Client" />
@@ -113,7 +117,10 @@
       <updated>1744256153703</updated>
       <workItem from="1744256154834" duration="741000" />
       <workItem from="1744256908722" duration="10519000" />
-      <workItem from="1744525737386" duration="2533000" />
+      <workItem from="1744525737386" duration="3240000" />
+      <workItem from="1745328676947" duration="1764000" />
+      <workItem from="1745898341678" duration="4942000" />
+      <workItem from="1745909371644" duration="2087000" />
     </task>
     <task id="LOCAL-00001" summary="chat application">
       <option name="closed" value="true" />
@@ -123,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744258468525</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="image sending option added">
+      <option name="closed" value="true" />
+      <created>1744797514960</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1744797514960</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -131,6 +146,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="chat application" />
-    <option name="LAST_COMMIT_MESSAGE" value="chat application" />
+    <MESSAGE value="image sending option added" />
+    <option name="LAST_COMMIT_MESSAGE" value="image sending option added" />
   </component>
 </project>
